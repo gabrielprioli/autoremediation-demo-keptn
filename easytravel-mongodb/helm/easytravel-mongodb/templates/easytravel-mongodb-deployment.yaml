@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: easytravel-mongodb
+  labels:
+    app: easytravel-mongodb
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: easytravel-mongodb
+  template:
+    metadata:
+      labels:
+        app: easytravel-mongodb
+        deployment: easytravel-mongodb
+        app.kubernetes.io/name: {{ .Values.keptn.service }}
+        app.kubernetes.io/instance: "{{ .Values.keptn.service }}-{{ .Values.keptn.deployment }}"
+        app.kubernetes.io/component: database
+        app.kubernetes.io/part-of: "{{ .Values.keptn.project }}"
+        app.kubernetes.io/managed-by: Keptn
+        app.kubernetes.io/version: {{ (split ":" .Values.image)._1 | default "latest" }}
+    spec:
+      containers:
+        - name: easytravel-mongodb
+          image: {{ .Values.image }}
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 27017
+            - containerPort: 28017
+          resources: {}
+      restartPolicy: Always
