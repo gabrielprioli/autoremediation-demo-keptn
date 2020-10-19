@@ -1,5 +1,7 @@
 easytravel-backend:
   enabled: false
+easytravel-backend-generated:
+  enabled: false
 easytravel-mongodb:
   enabled: false
 easytravel-mongodb-generated:
