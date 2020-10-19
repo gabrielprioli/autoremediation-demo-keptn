@@ -1,2 +1,4 @@
 easytravel-mongodb:
   enabled: false
+easytravel-mongodb-generated:
+  enabled: false
