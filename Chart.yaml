@@ -1,0 +1,4 @@
+apiVersion: v2
+description: A Helm Chart for project easytravel-umbrella
+name: easytravel-umbrella
+version: 0.1.0
