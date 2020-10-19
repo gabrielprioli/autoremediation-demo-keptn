@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: easytravel-loadgen
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {}
+  selector:
+    matchLabels:
+      app: easytravel-loadgen
+  template:
+    metadata:
+      labels:
+        app: easytravel-loadgen
+        app.kubernetes.io/name: {{ .Values.keptn.service }}
+        app.kubernetes.io/instance: "{{ .Values.keptn.service }}-{{ .Values.keptn.deployment }}"
+        app.kubernetes.io/component: api
+        app.kubernetes.io/part-of: "{{ .Values.keptn.project }}"
+        app.kubernetes.io/managed-by: Keptn
+        app.kubernetes.io/version: {{ (split ":" .Values.image)._1 | default "latest" }}
+    spec:
+      containers:
+        - name: easytravel-loadgen
+          image: "{{ .Values.image }}"
+          imagePullPolicy: "Always"
+          env:
+            - name: DT_CUSTOM_PROP
+              value: "version={{ .Chart.Version }} revision={{ .Release.Revision }} releasename={{ .Release.Name }} keptn_project={{ .Values.keptn.project }} keptn_service={{ .Values.keptn.service }} keptn_stage={{ .Values.keptn.stage }} keptn_deployment={{ .Values.keptn.deployment }}"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.name"
+            - name: DEPLOYMENT_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.labels['deployment']"
+            - name: CONTAINER_IMAGE
+              value: "{{ .Values.image }}"
+            - name: KEPTN_PROJECT
+              value: "{{ .Chart.Name }}"
+            - name: KEPTN_STAGE
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.namespace"
+            - name: KEPTN_SERVICE
+              value: "easytravel-loadgen"
+            - name: ET_FRONTEND_URL
+              valueFrom:
+                secretKeyRef:
+                  name: www
+                  key: ET_WWW_URL
+            - name: ET_PROBLEMS
+              valueFrom:
+                secretKeyRef:
+                  name: loadgen
+                  key: ET_PROBLEMS
+            - name: ET_PROBLEMS_DELAY
+              valueFrom:
+                secretKeyRef:
+                  name: loadgen
+                  key: ET_PROBLEMS_DELAY   
+            - name: ET_VISIT_NUMBER
+              valueFrom:
+                secretKeyRef:
+                  name: loadgen
+                  key: ET_VISIT_NUMBER
