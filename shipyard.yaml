@@ -1,0 +1,5 @@
+stages:
+  - name: "production"
+    deployment_strategy: "direct"
+    test_strategy: "functional"
+    remediation_strategy: "automated"
