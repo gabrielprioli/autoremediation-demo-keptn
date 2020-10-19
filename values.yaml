@@ -1,1 +1,2 @@
-{}
+easytravel-mongodb:
+  enabled: false
