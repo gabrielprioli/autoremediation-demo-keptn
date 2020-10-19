@@ -6,6 +6,8 @@ easytravel-frontend:
   enabled: false
 easytravel-frontend-generated:
   enabled: false
+easytravel-loadgen:
+  enabled: false
 easytravel-mongodb:
   enabled: false
 easytravel-mongodb-generated:
