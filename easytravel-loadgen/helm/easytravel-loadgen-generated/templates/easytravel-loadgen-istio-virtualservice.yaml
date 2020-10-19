@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  creationTimestamp: null
+  name: easytravel-loadgen
+spec:
+  gateways:
+  - public-gateway.istio-system
+  - mesh
+  hosts:
+  - easytravel-loadgen.easytravel-production.52.224.144.151.nip.io
+  - easytravel-loadgen
+  http:
+  - route:
+    - destination:
+        host: easytravel-loadgen.easytravel-production.svc.cluster.local

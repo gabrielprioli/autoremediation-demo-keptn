@@ -1,0 +1,7 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  creationTimestamp: null
+  name: easytravel-loadgen
+spec:
+  host: easytravel-loadgen.easytravel-production.svc.cluster.local
