@@ -12,3 +12,5 @@ easytravel-mongodb-generated:
   enabled: false
 easytravel-www:
   enabled: false
+easytravel-www-generated:
+  enabled: false
