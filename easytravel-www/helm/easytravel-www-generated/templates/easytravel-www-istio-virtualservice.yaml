@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  creationTimestamp: null
+  name: easytravel-www
+spec:
+  gateways:
+  - public-gateway.istio-system
+  - mesh
+  hosts:
+  - easytravel-www.easytravel-production.52.224.144.151.nip.io
+  - easytravel-www
+  http:
+  - route:
+    - destination:
+        host: easytravel-www.easytravel-production.svc.cluster.local

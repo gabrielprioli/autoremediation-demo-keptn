@@ -1,0 +1,7 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  creationTimestamp: null
+  name: easytravel-www
+spec:
+  host: easytravel-www.easytravel-production.svc.cluster.local
