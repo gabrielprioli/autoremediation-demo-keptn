@@ -4,6 +4,8 @@ easytravel-backend-generated:
   enabled: false
 easytravel-frontend:
   enabled: false
+easytravel-frontend-generated:
+  enabled: false
 easytravel-mongodb:
   enabled: false
 easytravel-mongodb-generated:
