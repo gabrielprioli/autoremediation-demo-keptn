@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: easytravel-frontend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {}
+  selector:
+    matchLabels:
+      app: easytravel-frontend
+  template:
+    metadata:
+      labels:
+        app: easytravel-frontend
+        app.kubernetes.io/name: {{ .Values.keptn.service }}
+        app.kubernetes.io/instance: "{{ .Values.keptn.service }}-{{ .Values.keptn.deployment }}"
+        app.kubernetes.io/component: api
+        app.kubernetes.io/part-of: "{{ .Values.keptn.project }}"
+        app.kubernetes.io/managed-by: Keptn
+        app.kubernetes.io/version: {{ (split ":" .Values.image)._1 | default "latest" }}
+    spec:
+      containers:
+        - name: easytravel-frontend
+          image: "{{ .Values.image }}"
+          imagePullPolicy: "Always"
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 8080
+          env:
+            - name: DT_CUSTOM_PROP
+              value: "version={{ .Chart.Version }} revision={{ .Release.Revision }} releasename={{ .Release.Name }} keptn_project={{ .Values.keptn.project }} keptn_service={{ .Values.keptn.service }} keptn_stage={{ .Values.keptn.stage }} keptn_deployment={{ .Values.keptn.deployment }}"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.name"
+            - name: DEPLOYMENT_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.labels['deployment']"
+            - name: CONTAINER_IMAGE
+              value: "{{ .Values.image }}"
+            - name: KEPTN_PROJECT
+              value: "{{ .Chart.Name }}"
+            - name: KEPTN_STAGE
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.namespace"
+            - name: KEPTN_SERVICE
+              value: "easytravel-frontend"
+            - name: CATALINA_OPTS
+              value: -Dconfig.apmServerDefault=APM -Xmx525m -Djava.security.egd=file:/dev/./urandom
+            - name: ET_BACKEND_URL
+              valueFrom:
+                secretKeyRef:
+                  name: backend
+                  key: ET_BACKEND_URL
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 60
+            initialDelaySeconds: 240
+            successThreshold: 1
+            timeoutSeconds: 1

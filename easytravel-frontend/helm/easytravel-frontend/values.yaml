@@ -1,0 +1,2 @@
+image: dynatrace/easytravel-frontend:2.0.0.3273
+replicaCount: 1
