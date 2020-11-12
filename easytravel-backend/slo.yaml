@@ -9,10 +9,10 @@ objectives:
     weight: 2
     pass:
       - criteria:
-          - "<=5"
+          - "<=15"
     fail:
       - criteria:
-          - "<=10"
+          - "<=50"
 total_score:
   pass: "90%"
   fail: "75%"
