@@ -1,5 +1,40 @@
-stages:
-  - name: "production"
-    deployment_strategy: "direct"
-    test_strategy: "functional"
-    remediation_strategy: "automated"
+apiVersion: spec.keptn.sh/0.2.0
+kind: Shipyard
+metadata:
+  name: ""
+spec:
+  stages:
+  - name: production
+    sequences:
+    - name: delivery
+      tasks:
+      - name: deployment
+        properties:
+          deploymentstrategy: direct
+      - name: test
+        properties:
+          teststrategy: functional
+      - name: evaluation
+        properties: null
+      - name: approval
+        properties:
+          pass: automatic
+          warning: automatic
+      - name: release
+        properties: null
+    - name: delivery-direct
+      tasks:
+      - name: deployment
+        properties:
+          deploymentstrategy: direct
+      - name: test
+        properties:
+          teststrategy: functional
+      - name: evaluation
+        properties: null
+      - name: approval
+        properties:
+          pass: automatic
+          warning: automatic
+      - name: release
+        properties: null
